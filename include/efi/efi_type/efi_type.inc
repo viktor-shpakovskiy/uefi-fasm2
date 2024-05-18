@@ -32,11 +32,13 @@ struc FUNCTION value&
 end struc
 
 struc EFI_GUID a, b, c, d&
+label . : .%top - .
 namespace .
     data1 UINT32 a
     data2 UINT16 b
     data3 UINT16 c
     data4 UINT8  d
+%top:
 end namespace
 end struc
 
