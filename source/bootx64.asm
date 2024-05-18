@@ -6,7 +6,7 @@ include 'efi/efi.inc'
 section '.text' code readable executable
 
 main:
-    EfiInitializeLib
+    EfiInitializeSystem
 
     EfiConsoleOut.ClearScreen
     EfiConsoleOut.OutputString hello_string
