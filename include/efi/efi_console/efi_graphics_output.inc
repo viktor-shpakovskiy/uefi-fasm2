@@ -11,7 +11,7 @@ macro EFI_GRAPHICS_OUTPUT_init self*
 namespace self
     macro caller function, params&
         macro function params
-            efi_call [self], EFI_BOOT_SERVICES, function, [self], params
+            efi_call [self], EFI_GRAPHICS_OUTPUT, function, [self], params
         end macro
     end macro
 
@@ -58,19 +58,26 @@ namespace Mode
         mov r14, [r15 + EFI_GRAPHICS_OUTPUT.Mode]
     end macro
 
-    macro getter value_name
+    macro getter32 value_name
+        macro get#value_name
+            mov eax, [r14 + EFI_GRAPHICS_OUTPUT_MODE.#value_name]
+        end macro
+    end macro
+
+    macro getter64 value_name
         macro get#value_name
             mov rax, [r14 + EFI_GRAPHICS_OUTPUT_MODE.#value_name]
         end macro
     end macro
 
-    getter MaxMode
-    getter Mode
-    getter SizeOfInfo
-    getter FrameBufferBase
-    getter FrameBufferSize
+    getter32 MaxMode
+    getter32 Mode
+    getter64 SizeOfInfo
+    getter64 FrameBufferBase
+    getter64 FrameBufferSize
 
-    purge getter
+    purge getter32
+    purge getter64
 
     EFI_GRAPHICS_OUTPUT_MODE_INFORMATION_init
 end namespace
@@ -91,19 +98,19 @@ namespace Info
         mov r13, [r14 + EFI_GRAPHICS_OUTPUT_MODE.Info]
     end macro
 
-    macro getter value_name
-        macro get#value
-            mov rax, [r13 + EFI_GRAPHICS_OUTPUT_MODE_INFORMATION.#value_name]
+    macro getter32 value_name
+        macro get#value_name
+            mov eax, [r13 + EFI_GRAPHICS_OUTPUT_MODE_INFORMATION.#value_name]
         end macro
     end macro
 
-    getter Version
-    getter HorisontalResolution
-    getter VerticalResolution
-    getter PixelFormat
-    getter PixelsPerScanLine
+    getter32 Version
+    getter32 HorisontalResolution
+    getter32 VerticalResolution
+    getter32 PixelFormat
+    getter32 PixelsPerScanLine
 
-    purge getter
+    purge getter32
 
     EFI_PIXEL_BITMASK_init
 end namespace
@@ -128,17 +135,17 @@ efi_struct EFI_PIXEL_BITMASK
 end efi_struct
 
 macro EFI_PIXEL_BITMASK_init
-    macro getter value_name
+    macro getter32 value_name
         macro get#value_name
-            mov rax, [r13 + EFI_GRAPHICS_OUTPUT_MODE_INFORMATION.PixelInformation \
+            mov eax, [r13 + EFI_GRAPHICS_OUTPUT_MODE_INFORMATION.PixelInformation \
                           + EFI_PIXEL_BITMASK.#value_name]
         end macro
     end macro
 
-    getter RedMask
-    getter GreenMask
-    getter BlueMask
-    getter ResevedMask
+    getter32 RedMask
+    getter32 GreenMask
+    getter32 BlueMask
+    getter32 ResevedMask
 
-    purge getter
+    purge getter32
 end macro
