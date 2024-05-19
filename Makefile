@@ -15,10 +15,10 @@ LOOP_DEVICE := /dev/loop0
 INCLUDE_DIR := ./include
 SOURCE_DIR  := ./source
 
-EFI_PROG_NAME  := bootx64
+EFI_PROG_NAME  := image
 EFI_PROG_SRC   := ${SOURCE_DIR}/${EFI_PROG_NAME}.asm
 EFI_PROG_BUILD := ${BUILD_DIR}/${EFI_PROG_NAME}.efi
-EFI_PROG_BOOT  := ${BOOT_DIR}/${EFI_PROG_NAME}.efi
+EFI_PROG_BOOT  := ${BOOT_DIR}/bootx64.efi
 
 FASM2_DIR     := fasm2
 FASM2_INCLUDE := ${FASM2_DIR}/include;${INCLUDE_DIR}
@@ -34,12 +34,12 @@ ${BUILD_DIR}:
 	mkdir -p $@
 
 ${EFI_PROG_BUILD}: ${EFI_PROG_SRC}
-	INCLUDE="${FASM2_INCLUDE}" ${FASM2_DIR}/fasmg.x64 "-iInclude 'fasm2.inc'" ${EFI_PROG_SRC} $@
+	INCLUDE="${FASM2_INCLUDE}" ${FASM2_DIR}/fasmg.x64 "-iInclude 'fasm2.inc'" $< $@
 
 copy: compile mount ${EFI_PROG_BOOT}
 
 ${EFI_PROG_BOOT}: ${EFI_PROG_BUILD}
-	sudo cp ${EFI_PROG_BUILD} ${BOOT_DIR} && sync
+	sudo cp $< $@ && sync
 
 mount: ${IMAGE} ${MOUNT_DIR} ${BOOT_DIR}
 
