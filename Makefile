@@ -39,7 +39,7 @@ ${EFI_PROG_BUILD}: ${EFI_PROG_SRC}
 copy: compile mount ${EFI_PROG_BOOT}
 
 ${EFI_PROG_BOOT}: ${EFI_PROG_BUILD}
-	sudo cp $< $@ && sync
+	sudo cp ${EFI_PROG_BUILD} $@ && sync
 
 mount: ${IMAGE} ${MOUNT_DIR} ${BOOT_DIR}
 
