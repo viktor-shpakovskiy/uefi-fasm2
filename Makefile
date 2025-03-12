@@ -67,7 +67,7 @@ unmount:
 	sudo losetup -d ${LOOP_DEVICE}
 
 run: ${EFI_BIOS} ${IMAGE}
-	qemu-system-x86_64 -bios ${EFI_BIOS} -drive file=${IMAGE},format=raw -boot c
+	qemu-system-x86_64 -bios ${EFI_BIOS} -drive file=${IMAGE},format=raw -boot c &
 
 clean_build:
 	rm -r ${BUILD_DIR}
