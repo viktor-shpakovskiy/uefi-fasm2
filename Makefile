@@ -21,20 +21,22 @@ EFI_PROG_BUILD := ${BUILD_DIR}/${EFI_PROG_NAME}.efi
 EFI_PROG_BOOT  := ${BOOT_DIR}/bootx64.efi
 
 FASM2_DIR     := fasm2
+FASM2_C       := ${FASM2_DIR}/fasmg.x64
 FASM2_INCLUDE := ${FASM2_DIR}/include;${INCLUDE_DIR}
 
 all: compile copy run
 
-compile: ${FASM2_DIR} ${BUILD_DIR} ${EFI_PROG_BUILD}
+compile: ${FASM2_C} ${BUILD_DIR} ${EFI_PROG_BUILD}
 
-${FASM2_DIR}:
+${FASM2_C}:
 	git clone https://github.com/tgrysztar/fasm2.git
+	chmod +x $(FASM2_C)
 
 ${BUILD_DIR}:
 	mkdir -p $@
 
 ${EFI_PROG_BUILD}: ${EFI_PROG_SRC}
-	INCLUDE="${FASM2_INCLUDE}" ${FASM2_DIR}/fasmg.x64 "-iInclude 'fasm2.inc'" $< $@
+	INCLUDE="${FASM2_INCLUDE}" ${FASM2_C} "-iInclude 'fasm2.inc'" $< $@
 
 copy: compile mount ${EFI_PROG_BOOT}
 
