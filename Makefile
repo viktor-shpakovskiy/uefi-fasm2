@@ -63,7 +63,7 @@ ${BOOT_DIR}:
 	sudo mkdir -p $@
 
 unmount:
-	sudo umount ${MOUNT_DIR}
+	sudo umount ${MOUNT_DIR} ||:
 	sudo losetup -d ${LOOP_DEVICE}
 
 run: ${EFI_BIOS} ${IMAGE}
