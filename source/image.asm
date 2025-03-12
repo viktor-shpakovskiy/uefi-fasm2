@@ -7,7 +7,7 @@ macro delay cycles
     delay: loop delay
 end macro
 
-DEFAULT_DELAY equ 0xfffffff
+DEFAULT_DELAY equ 0xFFFFFFFF
 
 include 'efi/efi.inc'
 include 'efi/efi_graphics_output.inc'
